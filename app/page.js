@@ -53,7 +53,7 @@ export default function Home() {
           transcriptText = update.transcript;
         } else if (Array.isArray(update.transcript)) {
           transcriptText = update.transcript
-            .map(item => `${item.role === 'agent' ? '🤖 Agent' : '👤 You'}: ${item.content}`)
+            .map(item => `${item.role === 'agent' ? '👩 Emma' : '👤 You'}: ${item.content}`)
             .join('\n\n');
         }
         setTranscript(transcriptText);
@@ -145,6 +145,7 @@ export default function Home() {
           gap: '40px',
           maxWidth: '1200px',
           width: '100%',
+          height: '100vh',
           padding: '20px',
           flexDirection: isMobile ? 'column' : 'row'
         }}>
@@ -227,15 +228,17 @@ export default function Home() {
             backdropFilter: 'blur(10px)',
             borderRadius: '20px',
             padding: '20px',
-            maxHeight: isMobile ? '300px' : '400px',
-            overflowY: 'auto',
-            border: '1px solid rgba(255, 255, 255, 0.1)'
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            display: 'flex',
+            flexDirection: 'column',
+            height: isMobile ? '400px' : '80vh'
           }}>
             <h2 style={{
               fontSize: '24px',
               fontWeight: '600',
               marginBottom: '20px',
-              color: '#00f7ff'
+              color: '#00f7ff',
+              flexShrink: 0
             }}>
               Live Transcript
             </h2>
@@ -243,13 +246,18 @@ export default function Home() {
             <div style={{
               fontSize: '16px',
               lineHeight: '1.6',
-              color: '#e0e0e0',
-              whiteSpace: 'pre-wrap'
+              color: '#ffffff',
+              fontWeight: 'bold',
+              whiteSpace: 'pre-wrap',
+              overflowY: 'auto',
+              flex: 1,
+              paddingRight: '10px'
             }}>
               {transcript || (
                 <div style={{
                   color: 'rgba(255, 255, 255, 0.5)',
                   fontStyle: 'italic',
+                  fontWeight: 'normal',
                   textAlign: 'center',
                   marginTop: '50px'
                 }}>
@@ -270,6 +278,25 @@ export default function Home() {
               transform: scale(1.1);
               opacity: 1;
             }
+          }
+          
+          /* Custom scrollbar for transcript */
+          div::-webkit-scrollbar {
+            width: 8px;
+          }
+          
+          div::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+          }
+          
+          div::-webkit-scrollbar-thumb {
+            background: #00f7ff;
+            border-radius: 10px;
+          }
+          
+          div::-webkit-scrollbar-thumb:hover {
+            background: #0099cc;
           }
         `}</style>
       </div>
