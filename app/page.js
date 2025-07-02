@@ -8,8 +8,18 @@ export default function Home() {
   const [transcript, setTranscript] = useState('');
   const [callStatus, setCallStatus] = useState('Ready to call');
   const [retellWebClient, setRetellWebClient] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    // Check if mobile after component mounts
+    setIsMobile(window.innerWidth <= 768);
+    
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    
     // Initialize the client
     const client = new RetellWebClient();
     setRetellWebClient(client);
@@ -57,6 +67,7 @@ export default function Home() {
 
     return () => {
       client.removeAllListeners();
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
@@ -135,7 +146,7 @@ export default function Home() {
           maxWidth: '1200px',
           width: '100%',
           padding: '20px',
-          flexDirection: window.innerWidth <= 768 ? 'column' : 'row'
+          flexDirection: isMobile ? 'column' : 'row'
         }}>
           {/* Audio Sphere Section */}
           <div style={{
@@ -148,12 +159,11 @@ export default function Home() {
             <div 
               onClick={isCallActive ? stopCall : startCall}
               style={{
-                width: '200px',
-                height: '200px',
+                width: isMobile ? '150px' : '200px',
+                height: isMobile ? '150px' : '200px',
                 background: 'radial-gradient(circle at 30%, #ff6bcb, #00f7ff)',
                 borderRadius: '50%',
                 position: 'relative',
-                animation: isCallActive ? 'pulse 1s infinite ease-in-out, activeGlow 2s infinite ease-in-out' : 'pulse 2s infinite ease-in-out',
                 boxShadow: isCallActive 
                   ? '0 0 60px rgba(0, 255, 255, 0.8), 0 0 120px rgba(255, 107, 203, 0.6)'
                   : '0 0 40px rgba(0, 255, 255, 0.5), 0 0 80px rgba(255, 107, 203, 0.3)',
@@ -162,7 +172,10 @@ export default function Home() {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: '3rem'
+                fontSize: isMobile ? '2rem' : '3rem',
+                animation: isCallActive 
+                  ? 'pulse 1s infinite ease-in-out' 
+                  : 'pulse 2s infinite ease-in-out'
               }}
             >
               🎤
@@ -214,7 +227,7 @@ export default function Home() {
             backdropFilter: 'blur(10px)',
             borderRadius: '20px',
             padding: '20px',
-            maxHeight: '400px',
+            maxHeight: isMobile ? '300px' : '400px',
             overflowY: 'auto',
             border: '1px solid rgba(255, 255, 255, 0.1)'
           }}>
@@ -256,15 +269,6 @@ export default function Home() {
             50% {
               transform: scale(1.1);
               opacity: 1;
-            }
-          }
-
-          @keyframes activeGlow {
-            0%, 100% {
-              box-shadow: 0 0 40px rgba(0, 255, 255, 0.5), 0 0 80px rgba(255, 107, 203, 0.3);
-            }
-            50% {
-              box-shadow: 0 0 60px rgba(0, 255, 255, 0.8), 0 0 120px rgba(255, 107, 203, 0.6);
             }
           }
         `}</style>
