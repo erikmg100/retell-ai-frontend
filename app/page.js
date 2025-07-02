@@ -1,62 +1,63 @@
 'use client';
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { RetellWebClient } from 'retell-client-js-sdk';
 
 export default function Home() {
   const [isCallActive, setIsCallActive] = useState(false);
   const [transcript, setTranscript] = useState('');
   const [callStatus, setCallStatus] = useState('Ready to call');
-  const retellWebClientRef = useRef(null);
+  const [retellWebClient, setRetellWebClient] = useState(null);
 
   useEffect(() => {
-    // Initialize the client only once
-    if (!retellWebClientRef.current) {
-      retellWebClientRef.current = new RetellWebClient();
-    }
+    // Initialize the client
+    const client = new RetellWebClient();
+    setRetellWebClient(client);
 
-    const retellWebClient = retellWebClientRef.current;
-
-    retellWebClient.on("call_started", () => {
+    client.on("call_started", () => {
       console.log("call started");
       setCallStatus('Call active - Say something!');
       setIsCallActive(true);
     });
 
-    retellWebClient.on("call_ended", () => {
+    client.on("call_ended", () => {
       console.log("call ended");
       setCallStatus('Call ended');
       setIsCallActive(false);
     });
 
-    retellWebClient.on("agent_start_talking", () => {
+    client.on("agent_start_talking", () => {
       console.log("agent started talking");
     });
 
-    retellWebClient.on("agent_stop_talking", () => {
+    client.on("agent_stop_talking", () => {
       console.log("agent stopped talking");
     });
 
-    retellWebClient.on("update", (update) => {
+    client.on("update", (update) => {
       console.log("Received update:", update);
-      if (update.transcript && Array.isArray(update.transcript)) {
-        // Build transcript from array of utterances
-        const transcriptText = update.transcript
-          .map(item => `${item.role === 'agent' ? 'Agent' : 'You'}: ${item.content}`)
-          .join('\n');
+      
+      // Handle different transcript formats
+      let transcriptText = '';
+      if (update.transcript) {
+        if (typeof update.transcript === 'string') {
+          transcriptText = update.transcript;
+        } else if (Array.isArray(update.transcript)) {
+          transcriptText = update.transcript
+            .map(item => `${item.role === 'agent' ? 'Agent' : 'You'}: ${item.content}`)
+            .join('\n');
+        }
         setTranscript(transcriptText);
       }
     });
 
-    retellWebClient.on("error", (error) => {
+    client.on("error", (error) => {
       console.error("Retell error:", error);
-      setCallStatus(`Error: ${error.message}`);
+      setCallStatus(`Error: ${error.message || 'Unknown error'}`);
     });
 
     return () => {
-      if (retellWebClient) {
-        retellWebClient.removeAllListeners();
-      }
+      client.removeAllListeners();
     };
   }, []);
 
@@ -78,14 +79,14 @@ export default function Home() {
         throw new Error(data.error || 'Failed to get access token');
       }
 
-      const retellWebClient = retellWebClientRef.current;
-      await retellWebClient.startCall({
-        accessToken: data.access_token,
-        sampleRate: 24000,
-        captureDeviceId: "default",
-        playbackDeviceId: "default",
-        emitRawAudioSamples: false
-      });
+      if (retellWebClient) {
+        await retellWebClient.startCall({
+          accessToken: data.access_token,
+          sampleRate: 24000,
+          captureDeviceId: "default",
+          playbackDeviceId: "default"
+        });
+      }
 
       setCallStatus('Call starting...');
     } catch (error) {
@@ -96,7 +97,6 @@ export default function Home() {
 
   const stopCall = async () => {
     try {
-      const retellWebClient = retellWebClientRef.current;
       if (retellWebClient) {
         await retellWebClient.stopCall();
       }
@@ -141,8 +141,7 @@ export default function Home() {
           minHeight: '200px',
           backgroundColor: '#f9f9f9',
           borderRadius: '5px',
-          whiteSpace: 'pre-wrap',
-          fontFamily: 'monospace'
+          whiteSpace: 'pre-wrap'
         }}>
           {transcript || 'Transcript will appear here during the call...'}
         </div>
