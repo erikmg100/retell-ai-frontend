@@ -193,7 +193,7 @@ export default function Home() {
         {/* Main Content */}
         <div style={{
           display: 'flex',
-          gap: isMobile ? '20px' : '50px',
+          gap: isMobile ? '15px' : '30px',
           maxWidth: '1400px',
           width: '100%',
           flexDirection: isMobile ? 'column' : 'row',
@@ -211,8 +211,8 @@ export default function Home() {
             <div 
               onClick={isCallActive ? stopCall : startCall}
               style={{
-                width: isMobile ? '140px' : '180px',
-                height: isMobile ? '140px' : '180px',
+                width: isMobile ? '150px' : '200px',
+                height: isMobile ? '150px' : '200px',
                 background: 'linear-gradient(135deg, #00f7ff, #ff6bcb, #ff4757)',
                 borderRadius: '50%',
                 position: 'relative',
@@ -291,7 +291,7 @@ export default function Home() {
             backdropFilter: 'blur(15px)',
             borderRadius: '24px',
             padding: isMobile ? '15px' : '25px',
-            maxHeight: isMobile ? '320px' : '450px',
+            maxHeight: isMobile ? '300px' : '400px',
             border: '1px solid rgba(255, 255, 255, 0.15)',
             display: 'flex',
             flexDirection: 'column',
@@ -312,18 +312,41 @@ export default function Home() {
             <div 
               ref={transcriptRef}
               style={{
+                fontFamily: "'Manrope', sans-serif",
                 fontSize: isMobile ? '15px' : '16px',
                 lineHeight: '1.7',
                 color: '#ffffff',
-                fontWeight: '400',
+                fontWeight: '700',
                 whiteSpace: 'pre-wrap',
                 overflowY: 'auto',
                 flex: 1,
                 paddingRight: '8px',
                 scrollBehavior: 'smooth',
+                letterSpacing: '0.2px',
+                textShadow: '0 1px 3px rgba(0, 255, 255, 0.3)',
               }}
             >
-              {transcript || (
+              {transcript ? (
+                <span style={{ animation: 'fadeIn 0.5s ease-in' }}>
+                  {transcript.split('\n\n').map((line, index) => (
+                    <div key={index} style={{ marginBottom: '10px' }}>
+                      {line.startsWith('👩 Emma') ? (
+                        <span>
+                          <span style={{ color: '#00f7ff' }}>👩 Emma:</span>
+                          <span style={{ color: '#ffffff' }}>{line.slice(8)}</span>
+                        </span>
+                      ) : line.startsWith('👤 You') ? (
+                        <span>
+                          <span style={{ color: '#ff6bcb' }}>👤 You:</span>
+                          <span style={{ color: '#ffffff' }}>{line.slice(7)}</span>
+                        </span>
+                      ) : (
+                        line
+                      )}
+                    </div>
+                  ))}
+                </span>
+              ) : (
                 <div style={{
                   color: 'rgba(255, 255, 255, 0.6)',
                   fontStyle: 'italic',
@@ -385,6 +408,17 @@ export default function Home() {
             50% {
               opacity: 0.5;
               transform: scale(1.1);
+            }
+          }
+
+          @keyframes fadeIn {
+            from {
+              opacity: 0;
+              transform: translateY(5px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
             }
           }
           
