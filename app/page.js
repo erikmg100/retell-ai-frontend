@@ -292,8 +292,8 @@ export default function Home() {
             display: 'flex',
             flexDirection: 'column',
             position: 'relative',
-            maskImage: 'linear-gradient(to top, transparent 20%, black 40%)',
-            WebkitMaskImage: 'linear-gradient(to top, transparent 20%, black 40%)',
+            maskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to bottom, black 80%, transparent 100%)',
           }}>
             <h2 style={{
               fontSize: isMobile ? '20px' : '26px',
@@ -303,6 +303,7 @@ export default function Home() {
               flexShrink: 0,
               letterSpacing: '0.5px',
               textTransform: 'uppercase',
+              textAlign: 'center',
             }}>
               Live Transcript
             </h2>
@@ -320,7 +321,6 @@ export default function Home() {
                 paddingRight: '8px',
                 scrollBehavior: 'smooth',
                 letterSpacing: '0.2px',
-                textShadow: '0 2px 4px rgba(0, 255, 255, 0.5)',
               }}
             >
               {transcript ? (
