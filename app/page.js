@@ -287,15 +287,13 @@ export default function Home() {
           {/* Transcript Section */}
           <div style={{
             flex: 1,
-            background: 'rgba(255, 255, 255, 0.08)',
-            backdropFilter: 'blur(15px)',
-            borderRadius: '24px',
-            padding: isMobile ? '15px' : '25px',
             maxHeight: isMobile ? '300px' : '400px',
-            border: '1px solid rgba(255, 255, 255, 0.15)',
+            overflow: 'hidden',
             display: 'flex',
             flexDirection: 'column',
-            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
+            position: 'relative',
+            maskImage: 'linear-gradient(to top, transparent 10%, black 30%, black 90%, transparent 100%)',
+            WebkitMaskImage: 'linear-gradient(to top, transparent 10%, black 30%, black 90%, transparent 100%)',
           }}>
             <h2 style={{
               fontSize: isMobile ? '20px' : '26px',
@@ -317,7 +315,6 @@ export default function Home() {
                 lineHeight: '1.7',
                 color: '#ffffff',
                 fontWeight: '700',
-                whiteSpace: 'pre-wrap',
                 overflowY: 'auto',
                 flex: 1,
                 paddingRight: '8px',
@@ -327,9 +324,23 @@ export default function Home() {
               }}
             >
               {transcript ? (
-                <span style={{ animation: 'fadeIn 0.5s ease-in' }}>
+                <div style={{ animation: 'fadeIn 0.5s ease-in' }}>
                   {transcript.split('\n\n').map((line, index) => (
-                    <div key={index} style={{ marginBottom: '10px' }}>
+                    <div
+                      key={index}
+                      style={{
+                        marginBottom: '10px',
+                        padding: isMobile ? '8px 12px' : '10px 15px',
+                        borderRadius: '15px',
+                        background: line.startsWith('👩 Emma')
+                          ? 'rgba(0, 247, 255, 0.2)'
+                          : 'rgba(255, 107, 203, 0.2)',
+                        maxWidth: isMobile ? '90%' : '80%',
+                        alignSelf: line.startsWith('👩 Emma') ? 'flex-start' : 'flex-end',
+                        boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)',
+                        display: 'inline-block',
+                      }}
+                    >
                       {line.startsWith('👩 Emma') ? (
                         <span>
                           <span style={{ color: '#00f7ff' }}>👩 Emma:</span>
@@ -345,7 +356,7 @@ export default function Home() {
                       )}
                     </div>
                   ))}
-                </span>
+                </div>
               ) : (
                 <div style={{
                   color: 'rgba(255, 255, 255, 0.6)',
@@ -428,8 +439,7 @@ export default function Home() {
           }
           
           div::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
+            background: transparent;
           }
           
           div::-webkit-scrollbar-thumb {
