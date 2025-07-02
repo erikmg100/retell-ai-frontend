@@ -137,6 +137,7 @@ export default function Home() {
   return (
     <>
       <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+      <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
       
       <div style={{
         fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif",
@@ -155,7 +156,7 @@ export default function Home() {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          marginBottom: '20px',
+          marginBottom: isMobile ? '40px' : '50px',
           zIndex: 1000
         }}>
           <img 
@@ -302,6 +303,28 @@ export default function Home() {
                 </div>
               )}
             </div>
+          </div>
+        </div>
+
+        {/* Powered by text positioned below main content */}
+        <div style={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginTop: isMobile ? '40px' : '50px',
+          zIndex: 1000
+        }}>
+          <div style={{
+            fontFamily: "'Manrope', sans-serif",
+            fontSize: isMobile ? '12px' : '14px',
+            fontWeight: '600',
+            color: 'rgba(255, 255, 255, 0.7)',
+            letterSpacing: '2px',
+            textTransform: 'uppercase',
+            textAlign: 'center',
+            filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3))'
+          }}>
+            POWERED BY MEET GABBI
           </div>
         </div>
 
