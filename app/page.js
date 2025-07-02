@@ -37,15 +37,14 @@ export default function Home() {
     client.on("update", (update) => {
       console.log("Received update:", update);
       
-      // Handle different transcript formats
       let transcriptText = '';
       if (update.transcript) {
         if (typeof update.transcript === 'string') {
           transcriptText = update.transcript;
         } else if (Array.isArray(update.transcript)) {
           transcriptText = update.transcript
-            .map(item => `${item.role === 'agent' ? 'Agent' : 'You'}: ${item.content}`)
-            .join('\n');
+            .map(item => `${item.role === 'agent' ? '🤖 Agent' : '👤 You'}: ${item.content}`)
+            .join('\n\n');
         }
         setTranscript(transcriptText);
       }
@@ -65,9 +64,8 @@ export default function Home() {
     try {
       setCallStatus('Requesting microphone access...');
       
-      // Force microphone permission request
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      stream.getTracks().forEach(track => track.stop()); // Stop the test stream
+      stream.getTracks().forEach(track => track.stop());
       
       setCallStatus('Creating call...');
       
@@ -118,44 +116,159 @@ export default function Home() {
   };
 
   return (
-    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
-      <h1>Real-Time AI Voice Assistant</h1>
-      <p>Experience live conversation with visual audio feedback</p>
+    <>
+      <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;800&display=swap" rel="stylesheet" />
       
-      <div style={{ margin: '20px 0' }}>
-        <button 
-          onClick={isCallActive ? stopCall : startCall}
-          style={{
-            padding: '15px 30px',
-            fontSize: '18px',
-            backgroundColor: isCallActive ? '#ff4444' : '#4CAF50',
-            color: 'white',
-            border: 'none',
-            borderRadius: '5px',
-            cursor: 'pointer'
-          }}
-        >
-          {isCallActive ? 'End Call' : 'Start Call'}
-        </button>
-      </div>
-
-      <div style={{ margin: '20px 0' }}>
-        <h3>Status: {callStatus}</h3>
-      </div>
-
-      <div style={{ margin: '20px 0' }}>
-        <h3>Live Transcript</h3>
+      <div style={{
+        fontFamily: "'Manrope', sans-serif",
+        background: 'linear-gradient(135deg, #0f0c29, #302b63, #24243e)',
+        color: '#ffffff',
+        minHeight: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        overflow: 'hidden'
+      }}>
         <div style={{
-          border: '1px solid #ccc',
-          padding: '15px',
-          minHeight: '200px',
-          backgroundColor: '#f9f9f9',
-          borderRadius: '5px',
-          whiteSpace: 'pre-wrap'
+          display: 'flex',
+          gap: '40px',
+          maxWidth: '1200px',
+          width: '100%',
+          padding: '20px',
+          flexDirection: window.innerWidth <= 768 ? 'column' : 'row'
         }}>
-          {transcript || 'Transcript will appear here during the call...'}
+          {/* Audio Sphere Section */}
+          <div style={{
+            flex: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}>
+            <div 
+              onClick={isCallActive ? stopCall : startCall}
+              style={{
+                width: '200px',
+                height: '200px',
+                background: 'radial-gradient(circle at 30%, #ff6bcb, #00f7ff)',
+                borderRadius: '50%',
+                position: 'relative',
+                animation: isCallActive ? 'pulse 1s infinite ease-in-out, activeGlow 2s infinite ease-in-out' : 'pulse 2s infinite ease-in-out',
+                boxShadow: isCallActive 
+                  ? '0 0 60px rgba(0, 255, 255, 0.8), 0 0 120px rgba(255, 107, 203, 0.6)'
+                  : '0 0 40px rgba(0, 255, 255, 0.5), 0 0 80px rgba(255, 107, 203, 0.3)',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '3rem'
+              }}
+            >
+              🎤
+            </div>
+
+            <button 
+              onClick={isCallActive ? stopCall : startCall}
+              style={{
+                marginTop: '30px',
+                padding: '15px 40px',
+                fontSize: '18px',
+                fontWeight: '600',
+                color: '#ffffff',
+                background: isCallActive 
+                  ? 'linear-gradient(45deg, #ff4757, #ff3742)'
+                  : 'linear-gradient(45deg, #ff6bcb, #00f7ff)',
+                border: 'none',
+                borderRadius: '50px',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+                boxShadow: isCallActive
+                  ? '0 4px 15px rgba(255, 71, 87, 0.4)'
+                  : '0 4px 15px rgba(0, 255, 255, 0.4)',
+                fontFamily: "'Manrope', sans-serif"
+              }}
+            >
+              {isCallActive ? 'End Call' : 'Start Call'}
+            </button>
+
+            <div style={{
+              marginTop: '15px',
+              padding: '10px 20px',
+              background: 'rgba(255, 255, 255, 0.1)',
+              borderRadius: '25px',
+              fontSize: '14px',
+              fontWeight: '500',
+              color: '#00f7ff',
+              textAlign: 'center',
+              minWidth: '200px'
+            }}>
+              {callStatus}
+            </div>
+          </div>
+
+          {/* Transcript Section */}
+          <div style={{
+            flex: 1,
+            background: 'rgba(255, 255, 255, 0.05)',
+            backdropFilter: 'blur(10px)',
+            borderRadius: '20px',
+            padding: '20px',
+            maxHeight: '400px',
+            overflowY: 'auto',
+            border: '1px solid rgba(255, 255, 255, 0.1)'
+          }}>
+            <h2 style={{
+              fontSize: '24px',
+              fontWeight: '600',
+              marginBottom: '20px',
+              color: '#00f7ff'
+            }}>
+              Live Transcript
+            </h2>
+            
+            <div style={{
+              fontSize: '16px',
+              lineHeight: '1.6',
+              color: '#e0e0e0',
+              whiteSpace: 'pre-wrap'
+            }}>
+              {transcript || (
+                <div style={{
+                  color: 'rgba(255, 255, 255, 0.5)',
+                  fontStyle: 'italic',
+                  textAlign: 'center',
+                  marginTop: '50px'
+                }}>
+                  Your conversation will appear here in real-time...
+                </div>
+              )}
+            </div>
+          </div>
         </div>
+
+        <style jsx>{`
+          @keyframes pulse {
+            0%, 100% {
+              transform: scale(1);
+              opacity: 0.8;
+            }
+            50% {
+              transform: scale(1.1);
+              opacity: 1;
+            }
+          }
+
+          @keyframes activeGlow {
+            0%, 100% {
+              box-shadow: 0 0 40px rgba(0, 255, 255, 0.5), 0 0 80px rgba(255, 107, 203, 0.3);
+            }
+            50% {
+              box-shadow: 0 0 60px rgba(0, 255, 255, 0.8), 0 0 120px rgba(255, 107, 203, 0.6);
+            }
+          }
+        `}</style>
       </div>
-    </div>
+    </>
   );
 }
