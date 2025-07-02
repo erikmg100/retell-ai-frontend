@@ -63,6 +63,12 @@ export default function Home() {
 
   const startCall = async () => {
     try {
+      setCallStatus('Requesting microphone access...');
+      
+      // Force microphone permission request
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      stream.getTracks().forEach(track => track.stop()); // Stop the test stream
+      
       setCallStatus('Creating call...');
       
       const response = await fetch(`https://server-ten-delta-31.vercel.app/create-web-call?t=${Date.now()}`, {
@@ -91,7 +97,11 @@ export default function Home() {
       setCallStatus('Call starting...');
     } catch (error) {
       console.error('Error starting call:', error);
-      setCallStatus(`Error: ${error.message}`);
+      if (error.name === 'NotAllowedError') {
+        setCallStatus('Microphone access denied. Please allow microphone access and try again.');
+      } else {
+        setCallStatus(`Error: ${error.message}`);
+      }
     }
   };
 
