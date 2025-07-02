@@ -143,35 +143,46 @@ export default function Home() {
         background: 'linear-gradient(135deg, #0f0c29, #302b63, #24243e)',
         color: '#ffffff',
         minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
+        position: 'relative',
         overflow: 'hidden'
       }}>
-        {/* Logo Header */}
+        {/* Logo Header - Positioned absolutely at top */}
         <div style={{
+          position: 'absolute',
+          top: '0',
+          left: '0',
+          right: '0',
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          padding: '20px',
-          flexShrink: 0
+          padding: '30px 20px',
+          zIndex: 1000,
+          background: 'rgba(0, 0, 0, 0.1)',
+          backdropFilter: 'blur(5px)'
         }}>
           <img 
             src="https://cdn-ilclclp.nitrocdn.com/uiuLNoPKqvsktnRsIDyDgFJzxCWoSfSE/assets/images/optimized/rev-1557504/protectingpatientrights.com/wp-content/uploads/2024/11/white-logo-1-1.webp"
             alt="Logo"
             style={{
-              height: isMobile ? '40px' : '60px',
+              height: isMobile ? '50px' : '80px',
               width: 'auto',
-              filter: 'drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3))'
+              filter: 'drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5))',
+              maxWidth: '90%'
+            }}
+            onError={(e) => {
+              console.log('Logo failed to load');
+              e.target.style.display = 'none';
             }}
           />
         </div>
 
-        {/* Main Content */}
+        {/* Main Content - With top padding to account for logo */}
         <div style={{
-          flex: 1,
           display: 'flex',
           justifyContent: 'center',
-          alignItems: 'center'
+          alignItems: 'center',
+          minHeight: '100vh',
+          paddingTop: isMobile ? '120px' : '150px'
         }}>
           <div style={{
             display: 'flex',
