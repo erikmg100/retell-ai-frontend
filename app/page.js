@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { RetellWebClient } from 'retell-client-js-sdk';
 
 export default function Home() {
@@ -9,6 +9,7 @@ export default function Home() {
   const [callStatus, setCallStatus] = useState('Ready to call');
   const [retellWebClient, setRetellWebClient] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
+  const transcriptRef = useRef(null);
 
   useEffect(() => {
     // Check if mobile after component mounts
@@ -71,6 +72,13 @@ export default function Home() {
     };
   }, []);
 
+  // Auto-scroll to bottom when transcript updates
+  useEffect(() => {
+    if (transcriptRef.current) {
+      transcriptRef.current.scrollTop = transcriptRef.current.scrollHeight;
+    }
+  }, [transcript]);
+
   const startCall = async () => {
     try {
       setCallStatus('Requesting microphone access...');
@@ -128,10 +136,10 @@ export default function Home() {
 
   return (
     <>
-      <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600;800&display=swap" rel="stylesheet" />
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
       
       <div style={{
-        fontFamily: "'Manrope', sans-serif",
+        fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif",
         background: 'linear-gradient(135deg, #0f0c29, #302b63, #24243e)',
         color: '#ffffff',
         minHeight: '100vh',
@@ -145,7 +153,6 @@ export default function Home() {
           gap: '40px',
           maxWidth: '1200px',
           width: '100%',
-          height: '100vh',
           padding: '20px',
           flexDirection: isMobile ? 'column' : 'row'
         }}>
@@ -200,7 +207,7 @@ export default function Home() {
                 boxShadow: isCallActive
                   ? '0 4px 15px rgba(255, 71, 87, 0.4)'
                   : '0 4px 15px rgba(0, 255, 255, 0.4)',
-                fontFamily: "'Manrope', sans-serif"
+                fontFamily: "inherit"
               }}
             >
               {isCallActive ? 'End Call' : 'Start Call'}
@@ -228,10 +235,10 @@ export default function Home() {
             backdropFilter: 'blur(10px)',
             borderRadius: '20px',
             padding: '20px',
+            maxHeight: isMobile ? '300px' : '400px',
             border: '1px solid rgba(255, 255, 255, 0.1)',
             display: 'flex',
-            flexDirection: 'column',
-            height: isMobile ? '400px' : '80vh'
+            flexDirection: 'column'
           }}>
             <h2 style={{
               fontSize: '24px',
@@ -243,21 +250,25 @@ export default function Home() {
               Live Transcript
             </h2>
             
-            <div style={{
-              fontSize: '16px',
-              lineHeight: '1.6',
-              color: '#ffffff',
-              fontWeight: 'bold',
-              whiteSpace: 'pre-wrap',
-              overflowY: 'auto',
-              flex: 1,
-              paddingRight: '10px'
-            }}>
+            <div 
+              ref={transcriptRef}
+              style={{
+                fontSize: '16px',
+                lineHeight: '1.6',
+                color: '#ffffff',
+                fontWeight: '500',
+                whiteSpace: 'pre-wrap',
+                overflowY: 'auto',
+                flex: 1,
+                paddingRight: '10px',
+                scrollBehavior: 'smooth'
+              }}
+            >
               {transcript || (
                 <div style={{
                   color: 'rgba(255, 255, 255, 0.5)',
                   fontStyle: 'italic',
-                  fontWeight: 'normal',
+                  fontWeight: '400',
                   textAlign: 'center',
                   marginTop: '50px'
                 }}>
