@@ -292,8 +292,8 @@ export default function Home() {
             display: 'flex',
             flexDirection: 'column',
             position: 'relative',
-            maskImage: 'linear-gradient(to top, transparent 10%, black 30%, black 90%, transparent 100%)',
-            WebkitMaskImage: 'linear-gradient(to top, transparent 10%, black 30%, black 90%, transparent 100%)',
+            maskImage: 'linear-gradient(to top, transparent 20%, black 40%)',
+            WebkitMaskImage: 'linear-gradient(to top, transparent 20%, black 40%)',
           }}>
             <h2 style={{
               fontSize: isMobile ? '20px' : '26px',
@@ -320,7 +320,7 @@ export default function Home() {
                 paddingRight: '8px',
                 scrollBehavior: 'smooth',
                 letterSpacing: '0.2px',
-                textShadow: '0 1px 3px rgba(0, 255, 255, 0.3)',
+                textShadow: '0 2px 4px rgba(0, 255, 255, 0.5)',
               }}
             >
               {transcript ? (
@@ -333,22 +333,31 @@ export default function Home() {
                         padding: isMobile ? '8px 12px' : '10px 15px',
                         borderRadius: '15px',
                         background: line.startsWith('👩 Emma')
-                          ? 'rgba(0, 247, 255, 0.2)'
-                          : 'rgba(255, 107, 203, 0.2)',
+                          ? 'rgba(0, 153, 255, 0.2)'
+                          : 'rgba(0, 255, 153, 0.2)',
                         maxWidth: isMobile ? '90%' : '80%',
                         alignSelf: line.startsWith('👩 Emma') ? 'flex-start' : 'flex-end',
                         boxShadow: '0 2px 8px rgba(0, 0, 0, 0.2)',
                         display: 'inline-block',
+                        transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.target.style.transform = 'scale(1.02)';
+                        e.target.style.boxShadow = '0 4px 12px rgba(0, 255, 255, 0.4)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.target.style.transform = 'scale(1)';
+                        e.target.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.2)';
                       }}
                     >
                       {line.startsWith('👩 Emma') ? (
                         <span>
-                          <span style={{ color: '#00f7ff' }}>👩 Emma:</span>
+                          <span style={{ color: '#0099ff' }}>👩 Emma:</span>
                           <span style={{ color: '#ffffff' }}>{line.slice(8)}</span>
                         </span>
                       ) : line.startsWith('👤 You') ? (
                         <span>
-                          <span style={{ color: '#ff6bcb' }}>👤 You:</span>
+                          <span style={{ color: '#00ff99' }}>👤 You:</span>
                           <span style={{ color: '#ffffff' }}>{line.slice(7)}</span>
                         </span>
                       ) : (
