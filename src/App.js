@@ -36,7 +36,8 @@ const App = () => {
     try {
       setCallStatus('Creating call...');
       
-      const response = await fetch('https://server-ten-delta-31.vercel.app/create-web-call', {
+      // FORCE CACHE BUST - Adding timestamp
+      const response = await fetch(`https://server-ten-delta-31.vercel.app/create-web-call?t=${Date.now()}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
