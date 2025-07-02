@@ -143,28 +143,26 @@ export default function Home() {
         background: 'linear-gradient(135deg, #0f0c29, #302b63, #24243e)',
         color: '#ffffff',
         minHeight: '100vh',
-        position: 'relative',
-        overflow: 'hidden'
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        overflow: 'hidden',
+        padding: '20px'
       }}>
-        {/* Logo Header - Positioned absolutely at top */}
+        {/* Logo positioned right above main content */}
         <div style={{
-          position: 'absolute',
-          top: '0',
-          left: '0',
-          right: '0',
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          padding: '30px 20px',
-          zIndex: 1000,
-          background: 'rgba(0, 0, 0, 0.1)',
-          backdropFilter: 'blur(5px)'
+          marginBottom: '20px',
+          zIndex: 1000
         }}>
           <img 
             src="https://cdn-ilclclp.nitrocdn.com/uiuLNoPKqvsktnRsIDyDgFJzxCWoSfSE/assets/images/optimized/rev-1557504/protectingpatientrights.com/wp-content/uploads/2024/11/white-logo-1-1.webp"
             alt="Logo"
             style={{
-              height: isMobile ? '50px' : '80px',
+              height: isMobile ? '50px' : '70px',
               width: 'auto',
               filter: 'drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5))',
               maxWidth: '90%'
@@ -176,142 +174,133 @@ export default function Home() {
           />
         </div>
 
-        {/* Main Content - With top padding to account for logo */}
+        {/* Main Content */}
         <div style={{
           display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          minHeight: '100vh',
-          paddingTop: isMobile ? '120px' : '150px'
+          gap: '40px',
+          maxWidth: '1200px',
+          width: '100%',
+          flexDirection: isMobile ? 'column' : 'row'
         }}>
+          {/* Audio Sphere Section */}
           <div style={{
+            flex: 1,
             display: 'flex',
-            gap: '40px',
-            maxWidth: '1200px',
-            width: '100%',
-            padding: '20px',
-            flexDirection: isMobile ? 'column' : 'row'
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center'
           }}>
-            {/* Audio Sphere Section */}
-            <div style={{
-              flex: 1,
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}>
-              <div 
-                onClick={isCallActive ? stopCall : startCall}
-                style={{
-                  width: isMobile ? '150px' : '200px',
-                  height: isMobile ? '150px' : '200px',
-                  background: 'radial-gradient(circle at 30%, #ff6bcb, #00f7ff)',
-                  borderRadius: '50%',
-                  position: 'relative',
-                  boxShadow: isCallActive 
-                    ? '0 0 60px rgba(0, 255, 255, 0.8), 0 0 120px rgba(255, 107, 203, 0.6)'
-                    : '0 0 40px rgba(0, 255, 255, 0.5), 0 0 80px rgba(255, 107, 203, 0.3)',
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  fontSize: isMobile ? '2rem' : '3rem',
-                  animation: isCallActive 
-                    ? 'pulse 1s infinite ease-in-out' 
-                    : 'pulse 2s infinite ease-in-out'
-                }}
-              >
-                🎤
-              </div>
-
-              <button 
-                onClick={isCallActive ? stopCall : startCall}
-                style={{
-                  marginTop: '30px',
-                  padding: '15px 40px',
-                  fontSize: '18px',
-                  fontWeight: '600',
-                  color: '#ffffff',
-                  background: isCallActive 
-                    ? 'linear-gradient(45deg, #ff4757, #ff3742)'
-                    : 'linear-gradient(45deg, #ff6bcb, #00f7ff)',
-                  border: 'none',
-                  borderRadius: '50px',
-                  cursor: 'pointer',
-                  transition: 'all 0.3s ease',
-                  boxShadow: isCallActive
-                    ? '0 4px 15px rgba(255, 71, 87, 0.4)'
-                    : '0 4px 15px rgba(0, 255, 255, 0.4)',
-                  fontFamily: "inherit"
-                }}
-              >
-                {isCallActive ? 'End Call' : 'Start Call'}
-              </button>
-
-              <div style={{
-                marginTop: '15px',
-                padding: '10px 20px',
-                background: 'rgba(255, 255, 255, 0.1)',
-                borderRadius: '25px',
-                fontSize: '14px',
-                fontWeight: '500',
-                color: '#00f7ff',
-                textAlign: 'center',
-                minWidth: '200px'
-              }}>
-                {callStatus}
-              </div>
+            <div 
+              onClick={isCallActive ? stopCall : startCall}
+              style={{
+                width: isMobile ? '150px' : '200px',
+                height: isMobile ? '150px' : '200px',
+                background: 'radial-gradient(circle at 30%, #ff6bcb, #00f7ff)',
+                borderRadius: '50%',
+                position: 'relative',
+                boxShadow: isCallActive 
+                  ? '0 0 60px rgba(0, 255, 255, 0.8), 0 0 120px rgba(255, 107, 203, 0.6)'
+                  : '0 0 40px rgba(0, 255, 255, 0.5), 0 0 80px rgba(255, 107, 203, 0.3)',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: isMobile ? '2rem' : '3rem',
+                animation: isCallActive 
+                  ? 'pulse 1s infinite ease-in-out' 
+                  : 'pulse 2s infinite ease-in-out'
+              }}
+            >
+              🎤
             </div>
 
-            {/* Transcript Section */}
-            <div style={{
-              flex: 1,
-              background: 'rgba(255, 255, 255, 0.05)',
-              backdropFilter: 'blur(10px)',
-              borderRadius: '20px',
-              padding: '20px',
-              maxHeight: isMobile ? '300px' : '400px',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
-              display: 'flex',
-              flexDirection: 'column'
-            }}>
-              <h2 style={{
-                fontSize: '24px',
+            <button 
+              onClick={isCallActive ? stopCall : startCall}
+              style={{
+                marginTop: '30px',
+                padding: '15px 40px',
+                fontSize: '18px',
                 fontWeight: '600',
-                marginBottom: '20px',
-                color: '#00f7ff',
-                flexShrink: 0
-              }}>
-                Live Transcript
-              </h2>
-              
-              <div 
-                ref={transcriptRef}
-                style={{
-                  fontSize: '16px',
-                  lineHeight: '1.6',
-                  color: '#ffffff',
-                  fontWeight: '500',
-                  whiteSpace: 'pre-wrap',
-                  overflowY: 'auto',
-                  flex: 1,
-                  paddingRight: '10px',
-                  scrollBehavior: 'smooth'
-                }}
-              >
-                {transcript || (
-                  <div style={{
-                    color: 'rgba(255, 255, 255, 0.5)',
-                    fontStyle: 'italic',
-                    fontWeight: '400',
-                    textAlign: 'center',
-                    marginTop: '50px'
-                  }}>
-                    Your conversation will appear here in real-time...
-                  </div>
-                )}
-              </div>
+                color: '#ffffff',
+                background: isCallActive 
+                  ? 'linear-gradient(45deg, #ff4757, #ff3742)'
+                  : 'linear-gradient(45deg, #ff6bcb, #00f7ff)',
+                border: 'none',
+                borderRadius: '50px',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+                boxShadow: isCallActive
+                  ? '0 4px 15px rgba(255, 71, 87, 0.4)'
+                  : '0 4px 15px rgba(0, 255, 255, 0.4)',
+                fontFamily: "inherit"
+              }}
+            >
+              {isCallActive ? 'End Call' : 'Start Call'}
+            </button>
+
+            <div style={{
+              marginTop: '15px',
+              padding: '10px 20px',
+              background: 'rgba(255, 255, 255, 0.1)',
+              borderRadius: '25px',
+              fontSize: '14px',
+              fontWeight: '500',
+              color: '#00f7ff',
+              textAlign: 'center',
+              minWidth: '200px'
+            }}>
+              {callStatus}
+            </div>
+          </div>
+
+          {/* Transcript Section */}
+          <div style={{
+            flex: 1,
+            background: 'rgba(255, 255, 255, 0.05)',
+            backdropFilter: 'blur(10px)',
+            borderRadius: '20px',
+            padding: '20px',
+            maxHeight: isMobile ? '300px' : '400px',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            display: 'flex',
+            flexDirection: 'column'
+          }}>
+            <h2 style={{
+              fontSize: '24px',
+              fontWeight: '600',
+              marginBottom: '20px',
+              color: '#00f7ff',
+              flexShrink: 0
+            }}>
+              Live Transcript
+            </h2>
+            
+            <div 
+              ref={transcriptRef}
+              style={{
+                fontSize: '16px',
+                lineHeight: '1.6',
+                color: '#ffffff',
+                fontWeight: '500',
+                whiteSpace: 'pre-wrap',
+                overflowY: 'auto',
+                flex: 1,
+                paddingRight: '10px',
+                scrollBehavior: 'smooth'
+              }}
+            >
+              {transcript || (
+                <div style={{
+                  color: 'rgba(255, 255, 255, 0.5)',
+                  fontStyle: 'italic',
+                  fontWeight: '400',
+                  textAlign: 'center',
+                  marginTop: '50px'
+                }}>
+                  Your conversation will appear here in real-time...
+                </div>
+              )}
             </div>
           </div>
         </div>
