@@ -12,7 +12,6 @@ export default function Home() {
   const transcriptRef = useRef(null);
 
   useEffect(() => {
-    // Check if mobile after component mounts
     setIsMobile(window.innerWidth <= 768);
     
     const handleResize = () => {
@@ -21,7 +20,6 @@ export default function Home() {
     
     window.addEventListener('resize', handleResize);
     
-    // Initialize the client
     const client = new RetellWebClient();
     setRetellWebClient(client);
 
@@ -72,7 +70,6 @@ export default function Home() {
     };
   }, []);
 
-  // Auto-scroll to bottom when transcript updates
   useEffect(() => {
     if (transcriptRef.current) {
       transcriptRef.current.scrollTop = transcriptRef.current.scrollHeight;
@@ -141,7 +138,7 @@ export default function Home() {
       
       <div style={{
         fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif",
-        background: 'linear-gradient(135deg, #0f0c29, #302b63, #24243e)',
+        background: 'linear-gradient(145deg, #1a1a3d, #2a1b5e, #3c2f7a)',
         color: '#ffffff',
         minHeight: '100vh',
         display: 'flex',
@@ -149,39 +146,58 @@ export default function Home() {
         justifyContent: 'center',
         alignItems: 'center',
         overflow: 'hidden',
-        padding: '20px'
+        padding: isMobile ? '15px' : '30px',
+        position: 'relative',
+        backgroundAttachment: 'fixed',
       }}>
-        {/* Logo positioned right above main content */}
+        {/* Subtle Animated Background Overlay */}
+        <div style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          background: 'radial-gradient(circle at 50% 50%, rgba(0, 255, 255, 0.1), transparent 70%)',
+          animation: 'bgGlow 15s ease-in-out infinite',
+          zIndex: 0,
+          pointerEvents: 'none',
+        }}></div>
+
+        {/* Logo */}
         <div style={{
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          marginBottom: isMobile ? '40px' : '50px',
-          zIndex: 1000
+          marginBottom: isMobile ? '30px' : '40px',
+          zIndex: 10,
         }}>
           <img 
             src="https://cdn-ilclclp.nitrocdn.com/uiuLNoPKqvsktnRsIDyDgFJzxCWoSfSE/assets/images/optimized/rev-1557504/protectingpatientrights.com/wp-content/uploads/2024/11/white-logo-1-1.webp"
             alt="Logo"
             style={{
-              height: isMobile ? '50px' : '70px',
+              height: isMobile ? '45px' : '65px',
               width: 'auto',
-              filter: 'drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5))',
-              maxWidth: '90%'
+              filter: 'drop-shadow(0 4px 12px rgba(0, 255, 255, 0.3))',
+              maxWidth: '85%',
+              transition: 'transform 0.3s ease',
             }}
             onError={(e) => {
               console.log('Logo failed to load');
               e.target.style.display = 'none';
             }}
+            onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
+            onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
           />
         </div>
 
         {/* Main Content */}
         <div style={{
           display: 'flex',
-          gap: '40px',
-          maxWidth: '1200px',
+          gap: isMobile ? '20px' : '50px',
+          maxWidth: '1400px',
           width: '100%',
-          flexDirection: isMobile ? 'column' : 'row'
+          flexDirection: isMobile ? 'column' : 'row',
+          zIndex: 10,
         }}>
           {/* Audio Sphere Section */}
           <div style={{
@@ -189,29 +205,33 @@ export default function Home() {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
-            justifyContent: 'center'
+            justifyContent: 'center',
+            padding: isMobile ? '10px' : '20px',
           }}>
             <div 
               onClick={isCallActive ? stopCall : startCall}
               style={{
-                width: isMobile ? '150px' : '200px',
-                height: isMobile ? '150px' : '200px',
-                background: 'radial-gradient(circle at 30%, #ff6bcb, #00f7ff)',
+                width: isMobile ? '140px' : '180px',
+                height: isMobile ? '140px' : '180px',
+                background: 'linear-gradient(135deg, #00f7ff, #ff6bcb, #ff4757)',
                 borderRadius: '50%',
                 position: 'relative',
                 boxShadow: isCallActive 
-                  ? '0 0 60px rgba(0, 255, 255, 0.8), 0 0 120px rgba(255, 107, 203, 0.6)'
-                  : '0 0 40px rgba(0, 255, 255, 0.5), 0 0 80px rgba(255, 107, 203, 0.3)',
+                  ? '0 0 50px rgba(0, 255, 255, 0.9), 0 0 100px rgba(255, 107, 203, 0.7)'
+                  : '0 0 30px rgba(0, 255, 255, 0.6), 0 0 60px rgba(255, 107, 203, 0.4)',
                 cursor: 'pointer',
-                transition: 'all 0.3s ease',
+                transition: 'all 0.4s ease',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                fontSize: isMobile ? '2rem' : '3rem',
+                fontSize: isMobile ? '2.2rem' : '3.2rem',
                 animation: isCallActive 
-                  ? 'pulse 1s infinite ease-in-out' 
-                  : 'pulse 2s infinite ease-in-out'
+                  ? 'pulse 1.2s infinite ease-in-out' 
+                  : 'pulse 2.5s infinite ease-in-out',
+                border: '2px solid rgba(255, 255, 255, 0.2)',
               }}
+              onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
+              onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
             >
               🎤
             </div>
@@ -219,37 +239,46 @@ export default function Home() {
             <button 
               onClick={isCallActive ? stopCall : startCall}
               style={{
-                marginTop: '30px',
-                padding: '15px 40px',
-                fontSize: '18px',
+                marginTop: '25px',
+                padding: isMobile ? '12px 35px' : '15px 50px',
+                fontSize: isMobile ? '16px' : '18px',
                 fontWeight: '600',
                 color: '#ffffff',
                 background: isCallActive 
-                  ? 'linear-gradient(45deg, #ff4757, #ff3742)'
-                  : 'linear-gradient(45deg, #ff6bcb, #00f7ff)',
+                  ? 'linear-gradient(90deg, #ff4757, #ff1f3d)'
+                  : 'linear-gradient(90deg, #00f7ff, #ff6bcb)',
                 border: 'none',
                 borderRadius: '50px',
                 cursor: 'pointer',
                 transition: 'all 0.3s ease',
                 boxShadow: isCallActive
-                  ? '0 4px 15px rgba(255, 71, 87, 0.4)'
-                  : '0 4px 15px rgba(0, 255, 255, 0.4)',
-                fontFamily: "inherit"
+                  ? '0 6px 20px rgba(255, 71, 87, 0.5)'
+                  : '0 6px 20px rgba(0, 255, 255, 0.5)',
+                fontFamily: "'Manrope', sans-serif",
+                textTransform: 'uppercase',
+                letterSpacing: '1px',
               }}
+              onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
+              onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
+              onMouseDown={(e) => e.target.style.transform = 'scale(0.95)'}
+              onMouseUp={(e) => e.target.style.transform = 'scale(1.05)'}
             >
               {isCallActive ? 'End Call' : 'Start Call'}
             </button>
 
             <div style={{
               marginTop: '15px',
-              padding: '10px 20px',
-              background: 'rgba(255, 255, 255, 0.1)',
-              borderRadius: '25px',
-              fontSize: '14px',
+              padding: isMobile ? '8px 15px' : '10px 25px',
+              background: 'rgba(255, 255, 255, 0.15)',
+              backdropFilter: 'blur(12px)',
+              borderRadius: '30px',
+              fontSize: isMobile ? '13px' : '14px',
               fontWeight: '500',
               color: '#00f7ff',
               textAlign: 'center',
-              minWidth: '200px'
+              minWidth: isMobile ? '180px' : '220px',
+              border: '1px solid rgba(255, 255, 255, 0.2)',
+              transition: 'all 0.3s ease',
             }}>
               {callStatus}
             </div>
@@ -258,21 +287,24 @@ export default function Home() {
           {/* Transcript Section */}
           <div style={{
             flex: 1,
-            background: 'rgba(255, 255, 255, 0.05)',
-            backdropFilter: 'blur(10px)',
-            borderRadius: '20px',
-            padding: '20px',
-            maxHeight: isMobile ? '300px' : '400px',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
+            background: 'rgba(255, 255, 255, 0.08)',
+            backdropFilter: 'blur(15px)',
+            borderRadius: '24px',
+            padding: isMobile ? '15px' : '25px',
+            maxHeight: isMobile ? '320px' : '450px',
+            border: '1px solid rgba(255, 255, 255, 0.15)',
             display: 'flex',
-            flexDirection: 'column'
+            flexDirection: 'column',
+            boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
           }}>
             <h2 style={{
-              fontSize: '24px',
-              fontWeight: '600',
-              marginBottom: '20px',
+              fontSize: isMobile ? '20px' : '26px',
+              fontWeight: '700',
+              marginBottom: '15px',
               color: '#00f7ff',
-              flexShrink: 0
+              flexShrink: 0,
+              letterSpacing: '0.5px',
+              textTransform: 'uppercase',
             }}>
               Live Transcript
             </h2>
@@ -280,24 +312,25 @@ export default function Home() {
             <div 
               ref={transcriptRef}
               style={{
-                fontSize: '16px',
-                lineHeight: '1.6',
+                fontSize: isMobile ? '15px' : '16px',
+                lineHeight: '1.7',
                 color: '#ffffff',
-                fontWeight: '500',
+                fontWeight: '400',
                 whiteSpace: 'pre-wrap',
                 overflowY: 'auto',
                 flex: 1,
-                paddingRight: '10px',
-                scrollBehavior: 'smooth'
+                paddingRight: '8px',
+                scrollBehavior: 'smooth',
               }}
             >
               {transcript || (
                 <div style={{
-                  color: 'rgba(255, 255, 255, 0.5)',
+                  color: 'rgba(255, 255, 255, 0.6)',
                   fontStyle: 'italic',
                   fontWeight: '400',
                   textAlign: 'center',
-                  marginTop: '50px'
+                  marginTop: '40px',
+                  fontSize: isMobile ? '14px' : '15px',
                 }}>
                   Your conversation will appear here in real-time...
                 </div>
@@ -306,24 +339,28 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Powered by text positioned below main content */}
+        {/* Powered by Text */}
         <div style={{
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          marginTop: isMobile ? '40px' : '50px',
-          zIndex: 1000
+          marginTop: isMobile ? '30px' : '40px',
+          zIndex: 10,
         }}>
           <div style={{
             fontFamily: "'Manrope', sans-serif",
-            fontSize: isMobile ? '12px' : '14px',
-            fontWeight: '600',
-            color: 'rgba(255, 255, 255, 0.7)',
-            letterSpacing: '2px',
+            fontSize: isMobile ? '11px' : '13px',
+            fontWeight: '700',
+            color: 'rgba(255, 255, 255, 0.8)',
+            letterSpacing: '2.5px',
             textTransform: 'uppercase',
             textAlign: 'center',
-            filter: 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3))'
-          }}>
+            filter: 'drop-shadow(0 2px 6px rgba(0, 255, 255, 0.3))',
+            transition: 'color 0.3s ease',
+          }}
+          onMouseEnter={(e) => e.target.style.color = '#00f7ff'}
+          onMouseLeave={(e) => e.target.style.color = 'rgba(255, 255, 255, 0.8)'}
+          >
             POWERED BY MEET GABBI
           </div>
         </div>
@@ -332,31 +369,43 @@ export default function Home() {
           @keyframes pulse {
             0%, 100% {
               transform: scale(1);
-              opacity: 0.8;
+              opacity: 0.85;
             }
             50% {
-              transform: scale(1.1);
+              transform: scale(1.08);
               opacity: 1;
             }
           }
+
+          @keyframes bgGlow {
+            0%, 100% {
+              opacity: 0.3;
+              transform: scale(1);
+            }
+            50% {
+              opacity: 0.5;
+              transform: scale(1.1);
+            }
+          }
           
-          /* Custom scrollbar for transcript */
+          /* Custom Scrollbar */
           div::-webkit-scrollbar {
-            width: 8px;
+            width: 6px;
           }
           
           div::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
           }
           
           div::-webkit-scrollbar-thumb {
-            background: #00f7ff;
-            border-radius: 10px;
+            background: linear-gradient(180deg, #00f7ff, #ff6bcb);
+            border-radius: 12px;
+            transition: background 0.3s ease;
           }
           
           div::-webkit-scrollbar-thumb:hover {
-            background: #0099cc;
+            background: linear-gradient(180deg, #00b7cc, #ff3b8e);
           }
         `}</style>
       </div>
