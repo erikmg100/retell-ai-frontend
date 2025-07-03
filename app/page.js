@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { RetellWebClient } from 'retell-client-js-sdk';
-import Head from 'next/head';
+import Head from 'next/head'; // Ensure this import is present
 
 export default function Home() {
   const [isCallActive, setIsCallActive] = useState(false);
@@ -135,7 +135,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Meet Gabbi - The Future Is Now</title>
+        <title>Meet Gabbi - The Future Is Now</title> {/* Set the desired title */}
       </Head>
       <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
       <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
