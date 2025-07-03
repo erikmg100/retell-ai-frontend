@@ -1,6 +1,6 @@
 export const metadata = {
   title: 'Retell AI Voice Assistant',
-  description: 'Real-time AI voice conversation',
+  description: 'Meet Gabbi - The Future Is Now',
 }
 
 export default function RootLayout({ children }) {
