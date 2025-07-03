@@ -1,5 +1,5 @@
 export const metadata = {
-  title: 'Retell AI Voice Assistant',
+  title: 'Meet Gabbi - The Future Is Now',
   description: 'Meet Gabbi - The Future Is Now',
 }
 
